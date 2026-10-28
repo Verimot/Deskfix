@@ -165,7 +165,7 @@
   </nav>
 
   <!-- ── Product Carousel ── -->
-  <section id="product-carousel">
+  <section id="product-carousel" aria-label="Deskfix recommended products" aria-roledescription="carousel">
     <style>
       #product-carousel {
         background: #fffdf9;
@@ -209,6 +209,13 @@
       }
       #product-carousel .pc-arrow:hover svg path { stroke: #fffdf9; }
       #product-carousel .pc-arrow:active { transform: scale(.93); }
+      #product-carousel .pc-arrow:focus-visible,
+      #product-carousel .pc-card:focus-visible { outline: 3px solid #b85c38; outline-offset: 3px; }
+      @media (prefers-reduced-motion: reduce) {
+        #product-carousel .pc-arrow,
+        #product-carousel .pc-card { transition: none; }
+        #product-carousel .pc-track { scroll-behavior: auto !important; }
+      }
       #product-carousel .pc-arrow svg path { stroke: #1a1a18; transition: stroke .2s; }
       #product-carousel .pc-wrapper {
         overflow: hidden;
@@ -290,12 +297,12 @@
     <div class="pc-header">
       <h2 class="pc-heading">Our Top Picks</h2>
       <div class="pc-nav">
-        <button class="pc-arrow" id="pc-prev" aria-label="Previous">
+        <button class="pc-arrow" id="pc-prev" aria-label="Previous products">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M10 12L6 8L10 4" stroke="#1a1a18" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
-        <button class="pc-arrow" id="pc-next" aria-label="Next">
+        <button class="pc-arrow" id="pc-next" aria-label="Next products">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M6 4L10 8L6 12" stroke="#1a1a18" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -304,7 +311,7 @@
     </div>
 
     <div class="pc-wrapper">
-      <div class="pc-track" id="pc-track">
+      <div class="pc-track" id="pc-track" role="group" aria-label="Recommended products">
 
         <a class="pc-card" href="https://www.amazon.com/dp/B000OOYECC/?tag=deskfix-20" target="_blank" rel="noopener sponsored">
           <img class="pc-img" src="assets/images/carousel/rain-design-mstand.jpeg" alt="Rain Design mStand" loading="lazy" />
@@ -443,8 +450,14 @@
         var TOTAL   = 14;
         var ANIM_MS = 380;
 
-        // Infinite loop: clone all 14 cards → 28 total
-        track.innerHTML += track.innerHTML;
+        // Keep the visual loop while hiding duplicate links from keyboard and screen-reader users.
+        var originalCards = Array.prototype.slice.call(track.querySelectorAll(".pc-card"));
+        originalCards.forEach(function (card) {
+          var clone = card.cloneNode(true);
+          clone.setAttribute("aria-hidden", "true");
+          clone.setAttribute("inert", "");
+          track.appendChild(clone);
+        });
 
         var currentIndex = 0;
         var animating    = false;
@@ -461,10 +474,15 @@
         }
 
         function slideTo(index, done) {
-          track.style.scrollBehavior = 'smooth';
+          var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          track.style.scrollBehavior = reduceMotion ? "auto" : "smooth";
           track.scrollLeft = getCardLeft(index);
+          if (reduceMotion) {
+            if (done) done();
+            return;
+          }
           setTimeout(function () {
-            track.style.scrollBehavior = 'auto';
+            track.style.scrollBehavior = "auto";
             if (done) done();
           }, ANIM_MS);
         }
