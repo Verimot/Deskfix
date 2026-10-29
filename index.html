@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Deskfix — Work Smarter. Hurt Less. Live Better.</title>
   <meta property="og:title" content="Deskfix — Work Smarter. Hurt Less. Live Better.">
-  <meta property="og:description" content="Practical ergonomics edhucation, honest product reviews, and the research behind why your body feels the way it does after a long day at your desk.">
+  <meta property="og:description" content="Practical ergonomics education, honest product reviews, and the research behind why your body feels the way it does after a long day at your desk.">
   <meta property="og:image" content="https://deskfix.blog/images/og-home.jpg">
   <meta property="og:url" content="https://deskfix.blog">
 
@@ -165,7 +165,7 @@
   </nav>
 
   <!-- ── Product Carousel ── -->
-  <section id="product-carousel">
+  <section id="product-carousel" aria-label="Deskfix recommended products" aria-roledescription="carousel">
     <style>
       #product-carousel {
         background: #fffdf9;
@@ -209,6 +209,13 @@
       }
       #product-carousel .pc-arrow:hover svg path { stroke: #fffdf9; }
       #product-carousel .pc-arrow:active { transform: scale(.93); }
+      #product-carousel .pc-arrow:focus-visible,
+      #product-carousel .pc-card:focus-visible { outline: 3px solid #b85c38; outline-offset: 3px; }
+      @media (prefers-reduced-motion: reduce) {
+        #product-carousel .pc-arrow,
+        #product-carousel .pc-card { transition: none; }
+        #product-carousel .pc-track { scroll-behavior: auto !important; }
+      }
       #product-carousel .pc-arrow svg path { stroke: #1a1a18; transition: stroke .2s; }
       #product-carousel .pc-wrapper {
         overflow: hidden;
@@ -290,12 +297,12 @@
     <div class="pc-header">
       <h2 class="pc-heading">Our Top Picks</h2>
       <div class="pc-nav">
-        <button class="pc-arrow" id="pc-prev" aria-label="Previous">
+        <button class="pc-arrow" id="pc-prev" aria-label="Previous products">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M10 12L6 8L10 4" stroke="#1a1a18" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
-        <button class="pc-arrow" id="pc-next" aria-label="Next">
+        <button class="pc-arrow" id="pc-next" aria-label="Next products">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M6 4L10 8L6 12" stroke="#1a1a18" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -304,7 +311,7 @@
     </div>
 
     <div class="pc-wrapper">
-      <div class="pc-track" id="pc-track">
+      <div class="pc-track" id="pc-track" role="group" aria-label="Recommended products">
 
         <a class="pc-card" href="https://www.amazon.com/dp/B000OOYECC/?tag=deskfix-20" target="_blank" rel="noopener sponsored">
           <img class="pc-img" src="assets/images/carousel/rain-design-mstand.jpeg" alt="Rain Design mStand" loading="lazy" />
@@ -443,8 +450,14 @@
         var TOTAL   = 14;
         var ANIM_MS = 380;
 
-        // Infinite loop: clone all 14 cards → 28 total
-        track.innerHTML += track.innerHTML;
+        // Keep the visual loop while hiding duplicate links from keyboard and screen-reader users.
+        var originalCards = Array.prototype.slice.call(track.querySelectorAll(".pc-card"));
+        originalCards.forEach(function (card) {
+          var clone = card.cloneNode(true);
+          clone.setAttribute("aria-hidden", "true");
+          clone.setAttribute("inert", "");
+          track.appendChild(clone);
+        });
 
         var currentIndex = 0;
         var animating    = false;
@@ -461,10 +474,15 @@
         }
 
         function slideTo(index, done) {
-          track.style.scrollBehavior = 'smooth';
+          var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          track.style.scrollBehavior = reduceMotion ? "auto" : "smooth";
           track.scrollLeft = getCardLeft(index);
+          if (reduceMotion) {
+            if (done) done();
+            return;
+          }
           setTimeout(function () {
-            track.style.scrollBehavior = 'auto';
+            track.style.scrollBehavior = "auto";
             if (done) done();
           }, ANIM_MS);
         }
@@ -619,9 +637,9 @@
           >
         </div>
         <div class="post-cat">Desk Setup</div>
-        <div class="post-title">The complete guide to monitor height — and why yours is probably wrong</div>
-        <p class="post-desc">Most people place their monitor too low. It's one of the leading causes of neck pain in remote workers — and it takes 30 seconds to fix.</p>
-        <a href="blog/" class="read-more">Read article →</a>
+        <div class="post-title">How to set up your home office ergonomically — a complete guide</div>
+        <p class="post-desc">A practical guide to chair, desk, monitor, keyboard, and lighting adjustments.</p>
+        <a href="blog/complete-home-office-ergonomics-guide.html" class="read-more">Read article →</a>
       </div>
       <div class="post-col">
         <div class="post-sm">
@@ -632,23 +650,23 @@
         </div>
         <div class="post-sm">
           <div class="post-cat">Research</div>
-          <div class="post-title">What the science actually says about standing desks</div>
-          <p class="post-desc">They're not a cure-all. Here's what the evidence supports.</p>
-          <a href="blog/" class="read-more">Read →</a>
+          <div class="post-title">Why your body hurts after a day at your desk</div>
+          <p class="post-desc">Explore Deskfix's discussion of discomfort after desk work.</p>
+          <a href="blog/why-your-body-hurts-at-your-desk.html" class="read-more">Read →</a>
         </div>
       </div>
       <div class="post-col">
         <div class="post-sm">
-          <div class="post-cat">Quick Fix</div>
-          <div class="post-title">5 free adjustments that will fix your posture today</div>
-          <p class="post-desc">No gear required. Just your current setup and five minutes.</p>
-          <a href="blog/" class="read-more">Read →</a>
+          <div class="post-cat">Desk Setup</div>
+          <div class="post-title">Best monitor arms for a home office</div>
+          <p class="post-desc">See the guide for monitor-arm options and fit considerations.</p>
+          <a href="blog/best-monitor-arms-home-office.html" class="read-more">Read →</a>
         </div>
         <div class="post-sm">
-          <div class="post-cat">Wrists</div>
-          <div class="post-title">Why your wrists hurt — and the keyboard setup that fixes it</div>
-          <p class="post-desc">Carpal tunnel isn't inevitable. Most wrist pain is preventable.</p>
-          <a href="blog/" class="read-more">Read →</a>
+          <div class="post-cat">Laptop Setup</div>
+          <div class="post-title">Best laptop stands for working from home</div>
+          <p class="post-desc">Compare laptop-stand options and the setup considerations that go with them.</p>
+          <a href="blog/best-laptop-stands-working-from-home.html" class="read-more">Read →</a>
         </div>
       </div>
     </div>
