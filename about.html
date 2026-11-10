@@ -351,7 +351,7 @@
     <a href="disclosure.html">Read our full disclosure</a>
   </div>
 
-  <nav>
+  <nav aria-label="Main navigation">
     <a href="index.html" class="nav-logo">Deskfix</a>
     <div class="nav-links">
       <a href="blog/">Blog</a>
@@ -473,8 +473,8 @@
       <h3>Get weekly tips</h3>
       <p>One email a week — ergonomics tips, new research, and honest product picks for remote workers.</p>
       <form action="https://app.kit.com/forms/9427125/subscriptions" method="POST" class="cta-form">
-        <input type="text" name="first_name" placeholder="First name (optional)">
-        <input type="email" name="email_address" placeholder="Your email address" required>
+        <input aria-label="First name (optional)" autocomplete="given-name" type="text" name="first_name" placeholder="First name (optional)">
+        <input aria-label="Email address" autocomplete="email" spellcheck="false" type="email" name="email_address" placeholder="Your email address" required>
         <button type="submit">Subscribe — it's free →</button>
       </form>
       <p class="cta-fine">No spam. Unsubscribe anytime.</p>

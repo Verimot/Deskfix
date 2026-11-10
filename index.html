@@ -153,7 +153,7 @@
     <a href="disclosure.html">Read our full disclosure</a>
   </div>
 
-  <nav>
+  <nav aria-label="Main navigation">
     <a href="index.html" class="nav-logo">Deskfix</a>
     <div class="nav-links">
       <a href="blog/">Blog</a>
@@ -559,8 +559,8 @@
     <div class="hero-right">
       <div class="hero-img-area" style="background-image: url('https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=900&q=80&auto=format&fit=crop&crop=center'); background-size: cover; background-position: center; padding: 0; min-height: 300px;"></div>
       <div class="stat-strip">
-        <div class="stat-cell"><div class="num">80%</div><div class="lbl">of office workers report pain — Scientific Reports, 2025</div></div>
-        <div class="stat-cell"><div class="num">3min</div><div class="lbl">avg read time</div></div>
+        <div class="stat-cell"><div class="num">Practical</div><div class="lbl">desk setup guides</div></div>
+        <div class="stat-cell"><div class="num">Focused</div><div class="lbl">one setup topic at a time</div></div>
         <div class="stat-cell"><div class="num">Free</div><div class="lbl">no paywalls, ever</div></div>
       </div>
     </div>
@@ -682,8 +682,8 @@
       <p>Join readers who've already improved their setup. No spam, unsubscribe anytime.</p>
       <form action="https://app.kit.com/forms/9427125/subscriptions" method="POST">
         <div class="form-col">
-          <input type="text" name="first_name" placeholder="First name (optional)">
-          <input type="email" name="email_address" placeholder="Your email address" required>
+          <input aria-label="First name (optional)" autocomplete="given-name" type="text" name="first_name" placeholder="First name (optional)">
+          <input aria-label="Email address" autocomplete="email" spellcheck="false" type="email" name="email_address" placeholder="Your email address" required>
           <button type="submit">Get weekly tips →</button>
         </div>
       </form>

@@ -74,7 +74,7 @@
     <a href="disclosure.html">Read our full disclosure</a>
   </div>
 
-  <nav>
+  <nav aria-label="Main navigation">
     <a href="index.html" class="nav-logo">Deskfix</a>
     <div class="nav-links">
       <a href="blog/">Blog</a>
@@ -115,12 +115,12 @@
 
         <div class="form-group">
           <label for="name">Your name</label>
-          <input type="text" id="name" name="name" placeholder="First and last name" required>
+          <input autocomplete="name" type="text" id="name" name="name" placeholder="First and last name" required>
         </div>
 
         <div class="form-group">
           <label for="email">Your email</label>
-          <input type="email" id="email" name="email" placeholder="you@example.com" required>
+          <input autocomplete="email" spellcheck="false" type="email" id="email" name="email" placeholder="you@example.com" required>
         </div>
 
         <div class="form-group">
